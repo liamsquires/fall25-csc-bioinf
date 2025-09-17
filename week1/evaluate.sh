@@ -35,10 +35,10 @@ run_eval() {
   start=$(date +%s)
 
   if [ "$lang" = "python" ]; then
-    python3 code/genome-assembly-Zhongyu-Chen/main.py \
-      code/genome-assembly-Zhongyu-Chen/"$dataset" > assembly_output.txt
+    python3 week1/code/genome-assembly-Zhongyu-Chen/main.py \
+      week1/code/genome-assembly-Zhongyu-Chen/"$dataset" > assembly_output.txt
   else
-    "$exe" code/genome-assembly-Zhongyu-Chen/"$dataset" > assembly_output.txt
+    "$exe" week1/code/genome-assembly-Zhongyu-Chen/"$dataset" > assembly_output.txt
   fi
 
   end=$(date +%s)
@@ -60,5 +60,5 @@ echo "--------------------------------------------------------------------------
 
 for d in data1 data2 data3 data4; do
   run_eval "$d" "python" "python"
-  run_eval "$d" "codon" "code/genome-assembly-codon/assembler"
+  run_eval "$d" "codon" "week1/code/genome-assembly-codon/assembler"
 done
