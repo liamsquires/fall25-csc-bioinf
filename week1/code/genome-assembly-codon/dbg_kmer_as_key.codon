@@ -1,0 +1,145 @@
+from copy import copy
+
+
+def reverse_complement(key: str) -> str:
+    complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G'}
+    
+    key_list = list(key[::-1])
+    for i in range(len(key_list)):
+        key_list[i] = complement[key_list[i]]
+    return ''.join(key_list)
+
+
+class Node:
+    _children: set[str]
+    _count: int
+    visited: bool
+    depth: int
+    max_depth_child: Optional[str]
+    
+    def __init__(self):
+        self._children = set[str]()
+        self._count = 0
+        self.visited = False
+        self.depth = 0
+        self.max_depth_child = None
+
+    def add_child(self, kmer: str):
+        self._children.add(kmer)
+
+    def increase(self):
+        self._count += 1
+
+    def reset(self):
+        self.visited = False
+        self.depth = 0
+        self.max_depth_child = None
+
+    def get_count(self) -> int:
+        return self._count
+
+    def get_children(self) -> list[str]:
+        return list(self._children)
+
+    def remove_children(self, target: set[str]):
+        self._children = self._children - target
+
+
+class DBG:
+    k: int
+    nodes: dict[str, Node]
+    
+    def __init__(self, k: int, data_list: list[list[str]]):
+        self.k = k
+        self.nodes = dict[str, Node]()
+        # build
+        self._check(data_list)
+        self._build(data_list)
+
+    def _check(self, data_list: list[list[str]]):
+        # check data list
+        assert len(data_list) > 0
+        assert self.k <= len(data_list[0][0])
+
+    def _build(self, data_list: list[list[str]]):
+        for data in data_list:
+            for original in data:
+                rc = reverse_complement(original)
+                for i in range(len(original) - self.k - 1):
+                    self._add_arc(original[i: i + self.k], original[i + 1: i + 1 + self.k])
+                    self._add_arc(rc[i: i + self.k], rc[i + 1: i + 1 + self.k])
+
+    def _add_node(self, kmer: str):
+        if kmer not in self.nodes:
+            self.nodes[kmer] = Node()
+        self.nodes[kmer].increase()
+
+    def _add_arc(self, kmer1: str, kmer2: str):
+        self._add_node(kmer1)
+        self._add_node(kmer2)
+        self.nodes[kmer1].add_child(kmer2)
+
+    def _get_count(self, child: str) -> int:
+        return self.nodes[child].get_count()
+
+    def _get_sorted_children(self, kmer: str) -> list[str]:
+        children = self.nodes[kmer].get_children()
+        children.sort(key=lambda x: self._get_count(x), reverse=True)
+        return children
+
+    def _get_depth(self, kmer: str) -> int:
+        if not self.nodes[kmer].visited:
+            self.nodes[kmer].visited = True
+            children = self._get_sorted_children(kmer)
+            max_depth = 0
+            max_child: Optional[str] = None
+            for child in children:
+                depth = self._get_depth(child)
+                if depth > max_depth:
+                    max_depth = depth
+                    max_child = child
+            self.nodes[kmer].depth = max_depth + 1
+            self.nodes[kmer].max_depth_child = max_child
+        return self.nodes[kmer].depth
+
+    def _reset(self):
+        for kmer in self.nodes:
+            self.nodes[kmer].reset()
+
+    def _get_longest_path(self) -> list[str]:
+        max_depth = 0
+        max_kmer: Optional[str] = None
+        for kmer in self.nodes:
+            depth = self._get_depth(kmer)
+            if depth > max_depth:
+                max_depth = depth
+                max_kmer = kmer
+
+        path: list[str] = []
+        while max_kmer is not None:
+            path.append(max_kmer)
+            max_kmer = self.nodes[max_kmer].max_depth_child
+        return path
+
+    def _delete_path(self, path: list[str]):
+        for kmer in path:
+            del self.nodes[kmer]
+        path_set = set(path)
+        for kmer in self.nodes.keys():
+            self.nodes[kmer].remove_children(path_set)
+
+    def _concat_path(self, path: list[str]) -> Optional[str]:
+        if len(path) < 1:
+            return None
+        concat = copy(path[0])
+        for i in range(1, len(path)):
+            concat += path[i][-1]
+        return concat
+
+    def get_longest_contig(self) -> Optional[str]:
+        # reset params in nodes for getting longest path
+        self._reset()
+        path = self._get_longest_path()
+        contig = self._concat_path(path)
+        self._delete_path(path)
+        return contig
