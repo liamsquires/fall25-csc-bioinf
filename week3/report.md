@@ -19,4 +19,4 @@ for i in range(6):
 Which I believe is equivalent, but it should be noted that this change was required.
 
 ## Results
-Strangely, codon is slower than python on my machine.
+Strangely, codon is slower than python on my machine. Overall, took about 5-6 hours to complete this assignment, and I would consider the AI support exemplary this time.
