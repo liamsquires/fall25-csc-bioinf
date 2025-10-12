@@ -30,7 +30,7 @@ else
     export CODON_PYTHON=$(find /usr/lib* /opt/* -name "libpython*.so*" 2>/dev/null | head -1)
 fi
 
-echo "Using CODON_PYTHON: $CODON_PYTHON" >&2
+# echo "Using CODON_PYTHON: $CODON_PYTHON" >&2
 codon_output=$(codon run test_phylo.py 2>&1)
 codon_time=$(echo "$codon_output" | grep -o '[0-9]\+ms' | head -1)
 if [ -z "$codon_time" ]; then
