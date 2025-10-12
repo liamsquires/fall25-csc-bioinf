@@ -31,8 +31,8 @@ jobs:
           echo "LD_LIBRARY_PATH=${HOME}/.codon/lib/codon:$LD_LIBRARY_PATH" >> $GITHUB_ENV
       - name: Install Python dependencies
         run: |
-          pip install matplotlib
           pip install numpy
+          pip install matplotlib
           pip install biotite
           pip install pytest
       # - name: Week 1
