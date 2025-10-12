@@ -28,17 +28,17 @@ def distances():
     # to reduce ambiguity in the tree construction.
     if hasattr(str, 'memcpy'):
         # Codon - use pnp for loading due to parser bug as shown in hints
-        distances: np.ndarray[int,2] = pnp.loadtxt("data/distances.txt", dtype=pnp.int64)
+        distances: np.ndarray[int,2] = pnp.loadtxt("week3/data/distances.txt", dtype=pnp.int64)
         return distances
     else:
         # Python
-        return np.loadtxt("data/distances.txt", dtype=int)
+        return np.loadtxt("week3/data/distances.txt", dtype=int)
 
 
 def upgma_newick():
     # Newick notation of the tree created from 'distances.txt',
     # created via DendroUPGMA
-    with open("data/newick_upgma.txt", "r") as file:
+    with open("week3/data/newick_upgma.txt", "r") as file:
         newick = file.read().strip()
     return newick
 
