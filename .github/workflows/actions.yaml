@@ -34,6 +34,7 @@ jobs:
           pip install matplotlib
           pip install numpy
           pip install biotite
+          pip install pytest
       # - name: Week 1
       #   run: bash week1/evaluate.sh
       - name: Week 3
