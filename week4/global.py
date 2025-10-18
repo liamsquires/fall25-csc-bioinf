@@ -1,0 +1,72 @@
+t1 = "AATAATTACATCACAAGACGTCTTGCACTCATGAGCGCGCGCACGCGCTGTCCCCACATTAGGCTTAAAAAC"
+q1 = "AATAAcCATCAaAAGACGTCTTGCACTCATGAGCACATggttcgatgcaAAAAC"
+
+def global_alignment(t, q, match=3, mismatch=-3, gap=-2):
+    n = len(t)
+    m = len(q)
+    t = t.upper()
+    q = q.upper()
+
+    # Initialize scoring matrix
+    S = [[0] * (m + 1) for _ in range(n + 1)]
+
+    #Initialize backtracing matrix
+    B = [[0] * (m + 1) for _ in range(n + 1)]
+
+    # Initialize first row and column
+    for i in range(1, n + 1):
+        S[i][0] = S[i - 1][0] + gap
+    for j in range(1, m + 1):
+        S[0][j] = S[0][j - 1] + gap
+
+    # Fill in the scoring matrix
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            if t[i - 1] == q[j - 1]:
+                score_diag = S[i - 1][j - 1] + match
+            else:
+                score_diag = S[i - 1][j - 1] + mismatch
+            score_up = S[i - 1][j] + gap
+            score_left = S[i][j - 1] + gap
+            S[i][j] = max(score_diag, score_up, score_left)
+            B[i][j] = (score_diag, score_up, score_left).index(S[i][j]) # 0: diag, 1: up, 2: left
+
+    # Backtrack to find the optimal alignment
+    align_t = []
+    align_q = []
+    i, j = n, m
+    while i > 0 and j > 0:
+        if B[i][j] == 0:  # diagonal
+            align_t.append(t[i - 1])
+            align_q.append(q[j - 1])
+            i -= 1
+            j -= 1
+        elif B[i][j] == 1:  # up
+            align_t.append(t[i - 1])
+            align_q.append('-')
+            i -= 1
+        else:  # left
+            align_t.append('-')
+            align_q.append(q[j - 1])
+            j -= 1
+
+    # Add any remaining gaps
+    while i > 0:
+        align_t.append(t[i - 1])
+        align_q.append('-')
+        i -= 1
+    while j > 0:
+        align_t.append('-')
+        align_q.append(q[j - 1])
+        j -= 1
+
+    # Reverse the alignments
+    align_t.reverse()
+    align_q.reverse()
+
+    return S[n][m], ''.join(align_t), ''.join(align_q)
+
+score, aligned_t, aligned_q = global_alignment(t1, q1)
+print("Score:", score)
+print("Aligned t:", aligned_t)
+print("Aligned q:", aligned_q)
