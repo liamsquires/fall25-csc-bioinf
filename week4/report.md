@@ -5,3 +5,5 @@ Which I used to cleanly populate the backtracing matrix. In codon, .index doesn'
 Also, originally I was using float('-inf') in python, but switched to 
     NEG_INF = -sys.maxsize
 since ints and floats don't play as nicely in python
+
+In total, I estimate this assignment took me 8 hours

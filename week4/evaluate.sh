@@ -40,7 +40,7 @@ for i in "${!queries[@]}"; do
         
         results["${name}-${qi}"]=$(measure_time python3 ${name}.py "$t" "$q")
         printf "%-20s %-10s %sms\n" "${name}-${qi}" "python" "${results[${name}-${qi}]}"
-        
+        sleep 0.1
     done
 done
 
@@ -51,7 +51,7 @@ for name in global local fitting affine; do
     
     results["${name}-mt_human"]=$(measure_time python3 ${name}.py "$human_seq" "$orang_seq")
     printf "%-20s %-10s %sms\n" "${name}-mt_human" "python" "${results[${name}-mt_human]}"
-    
+    sleep 0.1
 done
 
 results=()
@@ -65,7 +65,7 @@ for i in "${!queries[@]}"; do
         
         results["${name}-${qi}"]=$(measure_time ./${name}_codon "$t" "$q")
         printf "%-20s %-10s %sms\n" "${name}-${qi}" "codon" "${results[${name}-${qi}]}"
-        
+        sleep 0.1
     done
 done
 
@@ -73,5 +73,5 @@ for name in global local fitting affine; do
     
     results["${name}-mt_human"]=$(measure_time ./${name}_codon "$human_seq" "$orang_seq")
     printf "%-20s %-10s %sms\n" "${name}-mt_human" "codon" "${results[${name}-mt_human]}"
-    
+    sleep 0.1
 done
