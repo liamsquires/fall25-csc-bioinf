@@ -7,7 +7,7 @@ if [ ! -f "global.py" ]; then
 fi
 
 # Optional: compile Codon versions
-for script in global local fitting affine; do
+for script in global local fitting; do
     echo "Compiling ${script}.py..."
     codon build -release -o ${script}_codon ${script}.py
 done
@@ -36,7 +36,7 @@ for i in "${!queries[@]}"; do
     t="${targets[$i]}"
     qi="q$((i+1))"
 
-    for name in global local fitting affine; do
+    for name in global local fitting; do
         
         results["${name}-${qi}"]=$(measure_time python3 ${name}.py "$t" "$q")
         printf "%-20s %-10s %sms\n" "${name}-${qi}" "python" "${results[${name}-${qi}]}"
@@ -47,7 +47,7 @@ done
 human_seq=$(awk '!/^>/{printf "%s", $0}' MT-human.fa)
 orang_seq=$(awk '!/^>/{printf "%s", $0}' MT-orang.fa)
 
-for name in global local fitting affine; do
+for name in global local fitting; do
     
     results["${name}-mt_human"]=$(measure_time python3 ${name}.py "$human_seq" "$orang_seq")
     printf "%-20s %-10s %sms\n" "${name}-mt_human" "python" "${results[${name}-mt_human]}"
@@ -61,7 +61,7 @@ for i in "${!queries[@]}"; do
     t="${targets[$i]}"
     qi="q$((i+1))"
 
-    for name in global local fitting affine; do
+    for name in global local fitting; do
         
         results["${name}-${qi}"]=$(measure_time ./${name}_codon "$t" "$q")
         printf "%-20s %-10s %sms\n" "${name}-${qi}" "codon" "${results[${name}-${qi}]}"
@@ -69,7 +69,7 @@ for i in "${!queries[@]}"; do
     done
 done
 
-for name in global local fitting affine; do
+for name in global local fitting; do
     
     results["${name}-mt_human"]=$(measure_time ./${name}_codon "$human_seq" "$orang_seq")
     printf "%-20s %-10s %sms\n" "${name}-mt_human" "codon" "${results[${name}-mt_human]}"
