@@ -7,6 +7,8 @@ if len(sys.argv) != 3:
 t1 = sys.argv[1]
 q1 = sys.argv[2]
 
+NEG_INF = -sys.maxsize
+
 def affine_alignment(t, q, match=3, mismatch=-3, gap_open=-5, gap_extend=-1):
     n = len(t)
     m = len(q)
@@ -14,8 +16,8 @@ def affine_alignment(t, q, match=3, mismatch=-3, gap_open=-5, gap_extend=-1):
     q = q.upper()
 
     S = [[0]*(m+1) for _ in range(n+1)]
-    E = [[float('-inf')]*(m+1) for _ in range(n+1)]
-    F = [[float('-inf')]*(m+1) for _ in range(n+1)]
+    E = [[NEG_INF]*(m+1) for _ in range(n+1)]
+    F = [[NEG_INF]*(m+1) for _ in range(n+1)]
 
     # backtrace matrices: 0=diag, 1=left, 2=up
     B_S = [[None]*(m+1) for _ in range(n+1)]
@@ -27,13 +29,13 @@ def affine_alignment(t, q, match=3, mismatch=-3, gap_open=-5, gap_extend=-1):
     for i in range(1, n+1):
         S[i][0] = gap_open + (i-1)*gap_extend
         F[i][0] = gap_open + (i-1)*gap_extend
-        E[i][0] = float('-inf')
+        E[i][0] = NEG_INF
         B_F[i][0] = 2  # came from above (F[i-1][0])
 
     for j in range(1, m+1):
         S[0][j] = gap_open + (j-1)*gap_extend
         E[0][j] = gap_open + (j-1)*gap_extend
-        F[0][j] = float('-inf')
+        F[0][j] = NEG_INF
         B_E[0][j] = 1  # came from left (E[0][j-1])
 
     # fill

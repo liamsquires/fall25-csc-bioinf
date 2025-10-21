@@ -34,8 +34,15 @@ def global_alignment(t, q, match=3, mismatch=-3, gap=-2):
                 score_diag = S[i - 1][j - 1] + mismatch
             score_up = S[i - 1][j] + gap
             score_left = S[i][j - 1] + gap
-            S[i][j] = max(score_diag, score_up, score_left)
-            B[i][j] = (score_diag, score_up, score_left).index(S[i][j]) # 0: diag, 1: up, 2: left
+            max_score = max(score_diag, score_up, score_left)
+            S[i][j] = max_score
+            
+            if max_score == score_diag:
+                B[i][j] = 0  # diagonal
+            elif max_score == score_up:
+                B[i][j] = 1  # up
+            else:
+                B[i][j] = 2  # left
 
     # Backtrack to find the optimal alignment
     align_t = []
