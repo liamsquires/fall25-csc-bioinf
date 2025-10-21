@@ -7,7 +7,7 @@ if len(sys.argv) != 3:
 t1 = sys.argv[1]
 q1 = sys.argv[2]
 
-def global_alignment(t, q, match=3, mismatch=-3, gap=-2):
+def fitting_alignment(t, q, match=3, mismatch=-3, gap=-2):
     n = len(t)
     m = len(q)
     t = t.upper()
@@ -21,7 +21,7 @@ def global_alignment(t, q, match=3, mismatch=-3, gap=-2):
 
     # Initialize first row and column
     for i in range(1, n + 1):
-        S[i][0] = S[i - 1][0] + gap
+        S[i][0] = 0  # Fitting alignment allows free gaps at the start of t
     for j in range(1, m + 1):
         S[0][j] = S[0][j - 1] + gap
 
@@ -37,11 +37,19 @@ def global_alignment(t, q, match=3, mismatch=-3, gap=-2):
             S[i][j] = max(score_diag, score_up, score_left)
             B[i][j] = (score_diag, score_up, score_left).index(S[i][j]) # 0: diag, 1: up, 2: left
 
-    # Backtrack to find the optimal alignment
+    # Find the maximum score in the last row
+    max_score = float('-inf')
+    max_pos = (0, m)
+    for i in range(n + 1):
+        if S[i][m] > max_score:
+            max_score = S[i][m]
+            max_pos = (i, m)
+
+    # Backtrack to find the optimal fitting alignment
     align_t = []
     align_q = []
-    i, j = n, m
-    while i > 0 and j > 0:
+    i, j = max_pos
+    while j > 0:
         if B[i][j] == 0:  # diagonal
             align_t.append(t[i - 1])
             align_q.append(q[j - 1])
@@ -55,24 +63,18 @@ def global_alignment(t, q, match=3, mismatch=-3, gap=-2):
             align_t.append('-')
             align_q.append(q[j - 1])
             j -= 1
-
-    # Add any remaining gaps
+    # Add any remaining gaps in t
     while i > 0:
         align_t.append(t[i - 1])
         align_q.append('-')
         i -= 1
-    while j > 0:
-        align_t.append('-')
-        align_q.append(q[j - 1])
-        j -= 1
-
-    # Reverse the alignments
+    
     align_t.reverse()
     align_q.reverse()
 
-    return S[n][m], ''.join(align_t), ''.join(align_q)
+    return ''.join(align_t), ''.join(align_q), max_score
 
-score, aligned_t, aligned_q = global_alignment(t1, q1)
-# print("Score:", score)
-# print("Aligned t:", aligned_t)
-# print("Aligned q:", aligned_q)
+align_t, align_q, score = fitting_alignment(t1, q1)
+# print(f"Fitting Alignment Score: {score}")
+# print(align_t)
+# print(align_q)

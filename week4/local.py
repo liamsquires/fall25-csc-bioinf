@@ -1,5 +1,11 @@
-t1 = "AGC"
-q1 = "ag"
+import sys
+
+if len(sys.argv) != 3:
+    print("Usage: python3 script.py <target> <query>")
+    sys.exit(1)
+
+t1 = sys.argv[1]
+q1 = sys.argv[2]
 
 def local_alignment(t, q, match=3, mismatch=-3, gap=-2):
     n = len(t)
@@ -53,6 +59,6 @@ def local_alignment(t, q, match=3, mismatch=-3, gap=-2):
     return ''.join(align_t), ''.join(align_q), max_score
 
 align_t, align_q, score = local_alignment(t1, q1)
-print(f"Local Alignment Score: {score}")
-print(align_t)
-print(align_q)
+# print(f"Local Alignment Score: {score}")
+# print(align_t)
+# print(align_q)
