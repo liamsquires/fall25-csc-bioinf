@@ -35,9 +35,13 @@ jobs:
           pip install matplotlib
           pip install biotite
           pip install pytest
+          pip install -r week5/requirements.txt
+          sudo apt install samtools
       # - name: Week 1
       #   run: bash week1/evaluate.sh
       # - name: Week 3
       #   run: bash week3/evaluate.sh
-      - name: Week 4
-        run: bash week4/evaluate.sh
+      # - name: Week 4
+      #   run: bash week4/evaluate.sh
+      - name: Week 5
+        run: jupyter nbconvert --to script week5/assignment_5.ipynb --output week5/assignment_5.py

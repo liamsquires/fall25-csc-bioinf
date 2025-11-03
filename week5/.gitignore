@@ -1,0 +1,10 @@
+.venv/
+chr10.fa.gz
+illumina.fq.bz2
+pacbio.fq.bz2
+minimap2.tar.bz2
+minimap2-2.30_x64-linux/
+*.sam
+*.bam
+*.bai
+executed.ipynb
