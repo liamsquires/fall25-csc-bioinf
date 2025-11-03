@@ -44,4 +44,6 @@ jobs:
       # - name: Week 4
       #   run: bash week4/evaluate.sh
       - name: Week 5
-        run: jupyter nbconvert --to script week5/assignment_5.ipynb --output week5/assignment_5.py
+        run: cd week5
+        run: jupyter nbconvert week5.ipynb --to markdown --output week5
+        run: cat week5.md
