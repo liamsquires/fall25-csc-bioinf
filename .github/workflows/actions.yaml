@@ -37,6 +37,7 @@ jobs:
           pip install pytest
           pip install -r week5/requirements.txt
           sudo apt install samtools
+          sudo apt install bzip2
       # - name: Week 1
       #   run: bash week1/evaluate.sh
       # - name: Week 3

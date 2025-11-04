@@ -1,10 +1,13 @@
 .venv/
-chr10.fa.gz
-illumina.fq.bz2
-pacbio.fq.bz2
+chr10.*
+illumina.*
+pacbio.*
 minimap2.tar.bz2
 minimap2-2.30_x64-linux/
 *.sam
 *.bam
 *.bai
 executed.ipynb
+freebayes
+variants_pacbio.vcf
+variants_illumina.vcf
