@@ -1,7 +1,7 @@
 .venv/
 chr10.*
-illumina.*
-pacbio.*
+illumina*
+pacbio*
 minimap2.tar.bz2
 minimap2-2.30_x64-linux/
 *.sam
@@ -11,3 +11,8 @@ executed.ipynb
 freebayes
 variants_pacbio.vcf
 variants_illumina.vcf
+gh-pages*
+fgbio-*
+HapCUT2
+phased_illumina.vcf
+phased_pacbio.vcf

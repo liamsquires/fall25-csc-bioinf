@@ -38,6 +38,10 @@ jobs:
           pip install -r week5/requirements.txt
           sudo apt install samtools
           sudo apt install bzip2
+          sudo apt install autoconf
+          sudo apt install libbz2-dev
+          sudo apt-get install -y zlib1g-dev liblzma-dev libcurl4-openssl-dev
+          sudo apt-get install -y openjdk-17-jre
       # - name: Week 1
       #   run: bash week1/evaluate.sh
       # - name: Week 3
@@ -47,5 +51,5 @@ jobs:
       - name: Week 5
         run: |
           cd week5
-          jupyter nbconvert week5.ipynb --to markdown --output week5
+          jupyter nbconvert --execute week5.ipynb --to markdown --output week5
           cat week5.md
