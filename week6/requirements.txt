@@ -1,0 +1,10 @@
+jupyter
+nbconvert
+ipykernel
+scanpy
+pyroe
+celltypist
+matplotlib
+numpy<2.0
+pandas>=2.0
+zarr<3.0

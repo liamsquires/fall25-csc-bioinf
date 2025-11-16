@@ -43,14 +43,23 @@ jobs:
           sudo apt-get install -y zlib1g-dev liblzma-dev libcurl4-openssl-dev
           sudo apt-get install -y openjdk-17-jre
           sudo apt install igv
+          pip install -r week5/requirements.txt
+          pip install scanpy
+          pip install pyroe
+          pip install celltypist
       # - name: Week 1
       #   run: bash week1/evaluate.sh
       # - name: Week 3
       #   run: bash week3/evaluate.sh
       # - name: Week 4
       #   run: bash week4/evaluate.sh
-      - name: Week 5
+      # - name: Week 5
+      #   run: |
+      #     cd week5
+      #     jupyter nbconvert --execute week5.ipynb --to markdown --output week5
+      #     cat week5.md
+      - name: Week 6
         run: |
-          cd week5
-          jupyter nbconvert --execute week5.ipynb --to markdown --output week5
-          cat week5.md
+          cd week6
+          jupyter nbconvert --execute week6.ipynb --to markdown --output week6
+          cat week6.md

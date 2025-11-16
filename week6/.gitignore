@@ -1,0 +1,15 @@
+.venv/
+tempfiles/
+salmon-latest_linux_x86_64/
+alevin-fry-x86_64-unknown-linux-gnu/
+simpleaf-x86_64-unknown-linux-gnu/
+simpleaf
+salmon.tar.gz
+alevin-fry.tar.gz
+alevin-fry.tar.xz
+simpleaf_index/
+alevin_output/
+simpleaf_info.json
+*.log
+run_log.txt
+notebook_output.log
