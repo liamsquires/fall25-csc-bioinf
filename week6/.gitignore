@@ -2,7 +2,6 @@
 tempfiles/3M-*
 tempfiles/toy_ref_read/
 salmon-latest_linux_x86_64/
-alevin-fry-x86_64-unknown-linux-gnu/
 simpleaf-x86_64-unknown-linux-gnu/
 simpleaf
 salmon.tar.gz
