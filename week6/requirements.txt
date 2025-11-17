@@ -1,11 +1,9 @@
+# Core dependencies (numpy/pandas installed separately in CI for compatibility)
 jupyter
 nbconvert
 ipykernel
-# Pin numpy first to ensure compatible pandas build
-numpy>=1.26.0,<2.0
-pandas>=2.0.0,<2.3.0
-matplotlib
 zarr<3.0
+# Bioinformatics packages
 scanpy
 pyroe
 celltypist
