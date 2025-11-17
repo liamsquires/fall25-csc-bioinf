@@ -63,5 +63,5 @@ jobs:
       - name: Week 6
         run: |
           cd week6
-          jupyter nbconvert --execute week6.ipynb --to markdown --output week6
+          jupyter nbconvert week6.ipynb --to markdown --output week6
           cat week6.md
